@@ -14,7 +14,7 @@ def check_deadlines():
     refresh()
     print("deadlines checked", return_time())
     connection = create_connection(
-        "sm_app", "postgres", "fghtkm228", "127.0.0.1", "5432"
+        "d709i4msa5b0s2", "zggixxdwjxvkrq", "0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542", "ec2-63-34-223-144.eu-west-1.compute.amazonaws.com", "5432"
     )
     return_time()
     select_deadlines = "SELECT * from deadlines ORDER BY deadline asc"
@@ -23,7 +23,8 @@ def check_deadlines():
 def add_deadline():
     print("deadline added", return_time())
     connection = create_connection(
-        "sm_app", "postgres", "fghtkm228", "127.0.0.1", "5432"
+        "d709i4msa5b0s2", "zggixxdwjxvkrq", "0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542",
+        "ec2-63-34-223-144.eu-west-1.compute.amazonaws.com", "5432"
     )
     connection.autocommit = True
     data_tuple = (discipline, description, date)
@@ -33,7 +34,8 @@ def add_deadline():
 
 def delete_deadline(id):
     connection = create_connection(
-        "sm_app", "postgres", "fghtkm228", "127.0.0.1", "5432"
+        "d709i4msa5b0s2", "zggixxdwjxvkrq", "0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542",
+        "ec2-63-34-223-144.eu-west-1.compute.amazonaws.com", "5432"
     )
     connection.autocommit = True
     cursor = connection.cursor()
@@ -48,7 +50,8 @@ def return_time():
 
 def refresh():
     connection = create_connection(
-        "sm_app", "postgres", "fghtkm228", "127.0.0.1", "5432"
+        "d709i4msa5b0s2", "zggixxdwjxvkrq", "0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542",
+        "ec2-63-34-223-144.eu-west-1.compute.amazonaws.com", "5432"
     )
     connection.autocommit = True
     select_deadlines = "SELECT * from deadlines WHERE deadline < CURRENT_DATE "
