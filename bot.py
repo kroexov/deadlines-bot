@@ -1,9 +1,13 @@
 import psycopg2
+import io
 import telebot
+import pandas as pd
+import dataframe_image as dfi
 from psycopg2 import OperationalError
 from datetime import datetime
 from datetime import date
 from telebot import types
+from sqlalchemy import create_engine
 
 discipline=""
 date=""
@@ -17,8 +21,18 @@ def check_deadlines():
         "d709i4msa5b0s2", "zggixxdwjxvkrq", "0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542", "ec2-63-34-223-144.eu-west-1.compute.amazonaws.com", "5432"
     )
     return_time()
-    select_deadlines = "SELECT * from deadlines ORDER BY deadline asc"
+    select_deadlines = "SELECT * FROM deadlines ORDER BY deadline ASC"
     return execute_read_query(connection, select_deadlines)
+
+def send_pic(id):
+    pd.set_option('max_colwidth', 1000)
+    engine = create_engine(
+        'postgresql+psycopg2://zggixxdwjxvkrq:0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542@ec2-63-34-223-144.eu-west-1.compute.amazonaws.com/d709i4msa5b0s2')
+    df = pd.read_sql_table('deadlines', engine)
+    buf = io.BytesIO()
+    dfi.export(df, buf)
+    bot.send_photo(id, buf.getvalue())
+    buf.close()
 
 def add_deadline():
     print("deadline added", return_time())
@@ -104,7 +118,7 @@ def send_welcome(message):
     markup.add(itembtn1, itembtn2, itembtn3)
     bot.send_message(message.chat.id, "Welcome to deadlines bot by @kroexov. Choose the starting option!", reply_markup=markup)
 
-@bot.message_handler(commands=['add_deadline', 'check_deadlines', 'delete_deadlines'])
+@bot.message_handler(commands=['add_deadline', 'check_deadlines', 'delete_deadlines', 'testing'])
 def send_welcome(message):
     if message.text == "/add_deadline":
         global discipline
@@ -136,6 +150,9 @@ def send_welcome(message):
         bot.reply_to(message, "write the id of the deadline")
         global deleting_process
         deleting_process = 1
+
+    elif message.text == "/testing":
+        send_pic(message.chat.id)
 
 
 
