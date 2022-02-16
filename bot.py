@@ -33,10 +33,10 @@ def send_pic(id):
     ax.axis('tight')
     ax.axis('off')
     the_table = ax.table(cellText=df.values, colLabels=df.columns, loc='center')
-    pp = PdfPages("foo.pdf")
+    pp = PdfPages("deadlines.pdf")
     pp.savefig(fig, bbox_inches='tight')
     pp.close()
-    bot.send_document(chat_id = id, document = open("foo.pdf", 'rb'))
+    bot.send_document(chat_id = id, document = open("deadlines.pdf", 'rb'))
 
 def add_deadline():
     print("deadline added", return_time())
@@ -122,7 +122,7 @@ def send_welcome(message):
     markup.add(itembtn1, itembtn2, itembtn3)
     bot.send_message(message.chat.id, "Welcome to deadlines bot by @kroexov. Choose the starting option!", reply_markup=markup)
 
-@bot.message_handler(commands=['add_deadline', 'check_deadlines', 'delete_deadlines', 'testing'])
+@bot.message_handler(commands=['add_deadline', 'check_deadlines', 'delete_deadlines', 'get_pdf'])
 def send_welcome(message):
     if message.text == "/add_deadline":
         global discipline
@@ -155,7 +155,7 @@ def send_welcome(message):
         global deleting_process
         deleting_process = 1
 
-    elif message.text == "/testing":
+    elif message.text == "/get_pdf":
         send_pic(message.chat.id)
 
 
