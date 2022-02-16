@@ -31,7 +31,8 @@ def send_pic(id):
     df = pd.read_sql_table('deadlines', engine)
     buf = io.BytesIO()
     dfi.export(df, buf)
-    bot.send_photo(id, buf.getvalue())
+    buf.seek(0)
+    bot.send_photo(id, buf.read())
     buf.close()
 
 def add_deadline():
