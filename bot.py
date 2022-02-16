@@ -1,13 +1,13 @@
 import psycopg2
-import io
 import telebot
 import pandas as pd
-import dataframe_image as dfi
 from psycopg2 import OperationalError
 from datetime import datetime
 from datetime import date
 from telebot import types
 from sqlalchemy import create_engine
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
 
 discipline=""
 date=""
@@ -25,17 +25,18 @@ def check_deadlines():
     return execute_read_query(connection, select_deadlines)
 
 def send_pic(id):
-
     pd.set_option('max_colwidth', 1000)
     engine = create_engine(
         'postgresql+psycopg2://zggixxdwjxvkrq:0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542@ec2-63-34-223-144.eu-west-1.compute.amazonaws.com/d709i4msa5b0s2')
     df = pd.read_sql_table('deadlines', engine)
-    buf = io.BytesIO()
-    buf.name = 'image.png'
-    dfi.export(df, buf)
-    buf.seek(0)
-    bot.send_photo(id, photo = buf)
-    buf.close()
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.axis('tight')
+    ax.axis('off')
+    the_table = ax.table(cellText=df.values, colLabels=df.columns, loc='center')
+    pp = PdfPages("foo.pdf")
+    pp.savefig(fig, bbox_inches='tight')
+    pp.close()
+    bot.send_document(chat_id = id, document = open("foo.pdf", 'rb'))
 
 def add_deadline():
     print("deadline added", return_time())
