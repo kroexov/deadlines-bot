@@ -3,3 +3,4 @@ pyTelegramBotAPI==4.4.0
 pandas==1.4.1
 SQLAlchemy==1.4.31
 df2img==0.2.4
+matplotlib==3.4.2
