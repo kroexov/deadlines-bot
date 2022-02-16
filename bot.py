@@ -25,6 +25,7 @@ def check_deadlines():
     return execute_read_query(connection, select_deadlines)
 
 def send_pic(id):
+    refresh()
     pd.set_option('max_colwidth', 1000)
     engine = create_engine(
         'postgresql+psycopg2://zggixxdwjxvkrq:0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542@ec2-63-34-223-144.eu-west-1.compute.amazonaws.com/d709i4msa5b0s2')
