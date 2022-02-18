@@ -18,7 +18,7 @@ def check_deadlines():
     refresh()
     print("deadlines checked", return_time())
     connection = create_connection(
-        "d709i4msa5b0s2", "zggixxdwjxvkrq", "0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542", "ec2-63-34-223-144.eu-west-1.compute.amazonaws.com", "5432"
+        # your database info
     )
     return_time()
     select_deadlines = "SELECT * FROM deadlines ORDER BY deadline ASC"
@@ -29,7 +29,7 @@ def send_pic(id):
     plt.rcParams.update({'font.size': 20})
     pd.set_option('max_colwidth', 1000)
     engine = create_engine(
-        'postgresql+psycopg2://zggixxdwjxvkrq:0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542@ec2-63-34-223-144.eu-west-1.compute.amazonaws.com/d709i4msa5b0s2')
+        # your database info)
     df = pd.read_sql_table('deadlines', engine)
     fig, ax = plt.subplots()
     ax.axis('tight')
@@ -43,8 +43,7 @@ def send_pic(id):
 def add_deadline():
     print("deadline added", return_time())
     connection = create_connection(
-        "d709i4msa5b0s2", "zggixxdwjxvkrq", "0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542",
-        "ec2-63-34-223-144.eu-west-1.compute.amazonaws.com", "5432"
+        # your database info
     )
     connection.autocommit = True
     data_tuple = (discipline, description, date)
@@ -54,8 +53,7 @@ def add_deadline():
 
 def delete_deadline(id):
     connection = create_connection(
-        "d709i4msa5b0s2", "zggixxdwjxvkrq", "0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542",
-        "ec2-63-34-223-144.eu-west-1.compute.amazonaws.com", "5432"
+        # your database info
     )
     connection.autocommit = True
     cursor = connection.cursor()
@@ -70,8 +68,7 @@ def return_time():
 
 def refresh():
     connection = create_connection(
-        "d709i4msa5b0s2", "zggixxdwjxvkrq", "0b43a6f8cf9bef0b7b5fcf8b445d9cc3059159f81c56662fe64e50e9ad033542",
-        "ec2-63-34-223-144.eu-west-1.compute.amazonaws.com", "5432"
+        # your database info
     )
     connection.autocommit = True
     select_deadlines = "SELECT * from deadlines WHERE deadline < CURRENT_DATE "
@@ -113,7 +110,8 @@ def execute_read_query(connection, query):
     except OperationalError as e:
         print(f"The error '{e}' occurred")
 
-bot = telebot.TeleBot("5209968243:AAESYZI7iVvt3jukJsU6jvixevWIPhekCG4")
+bot = telebot.TeleBot(
+#your telebot token)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
